@@ -1,18 +1,21 @@
 import express from 'express';
-import helmet from 'helmet';
 import { ApolloServer } from 'apollo-server-express';
+import cors from 'cors';
+import helmet from 'helmet';
 import dotenv from 'dotenv';
 import { typeDefs, resolvers } from './graphql/schema.js';
 import connectDB from './config/database.js';
 
 dotenv.config(); // Access to .env file and get variables
-connectDB(); // Enable database connection
+// connectDB(); // Enable database connection
 
 // Express initialization and port assignment
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-// Parsing data with express.json() middleware
+// Preventing cors error and 
+// parsing data with express.json() middleware
+app.use(cors());
 app.use(express.json());
 
 // Apollo server definition

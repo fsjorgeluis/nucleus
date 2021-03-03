@@ -1,28 +1,42 @@
 import { gql } from 'apollo-server-express';
 
-const books = [
+const users = [
     {
-        title: 'The Awakening',
-        author: 'Kate Chopin',
-    },
-    {
-        title: 'City of Glass',
-        author: 'Paul Auster',
-    },
+        _id: 1,
+        nickname: 'fsjorgeluis',
+        password: '123456',
+        name: 'Jorge',
+        lastName: 'Fernandez',
+        email: 'fsjorgeluis@gmail.com',
+        address: 'asdasdasd',
+        phone1: '152452',
+        phone2: '56320',
+        group: 3,
+        isGroupSupervisor: false,
+        isGroupAssistant: false,
+        isAux: false,
+        isPr: false,
+        monthlyReport: () => reports,
+        role: 'SuperAdmin',
+        status: true
+    }
 ];
 
-const author = [
+const reports = [
     {
-        name: 'Kate Chopin',
-    },
-    {
-        name: 'Paul Auster',
+        _id: 1,
+        month: 'Marzo',
+        year: 2021,
+        user: () => users[0],
+        hour: 10.0,
+        publication: 5,
+        revisit: 10,
+        study: 0,
+        note: ''
     }
-]
+];
 
 const typeDefs = gql`
-    # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
-
     # This "UserRole" enum defines the queryable fields for every user in our data source.
     enum UserRole {
         SuperAdmin
@@ -33,52 +47,48 @@ const typeDefs = gql`
     # This "User" type defines the queryable fields for every user in our data source.
     type User {
         _id: ID!
-        firstName: String!
+        nickname: String!
+        password: String!
+        name: String!
         lastName: String!
-        monthlyReport: [MonthlyReport!]!
-        phone1: Int!
-        phone2: Int!
+        email: String!
+        address: String
+        phone1: String!
+        phone2: String
         group: Int!
-        isGS: Boolean!
-        isGA: Boolean!
-        isRP: Boolean!
-        isAP: Boolean!
+        isGroupSupervisor: Boolean!
+        isGroupAssistant: Boolean!
+        isAux: Boolean!
+        isPr: Boolean!
+        monthlyReport: [Report!]!
         role: UserRole!
+        status: Boolean!
     }
 
-    # This "MonthlyReport" type defines the queryable fields for every user monthly report in our data source.
-    type MonthlyReport {
+    # This "Report" type defines the queryable fields for every user monthly report in our data source.
+    type Report {
+        _id: ID
         month: String!
-        hours: Float!
-        publications: Int!
-        returnVisits: Int!
-        studies: Int!
+        year: Int!
+        user: User!
+        hour: Float!
+        publication: Int!
+        revisit: Int!
+        study: Int!
+        note: String
     }
-
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
-    title: String
-    author: Author
-  }
-  
-  type Author {
-    name: String
-    books: [Book]
-  }
 
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
   # case, the "books" query returns an array of zero or more Books (defined above).
   type Query {
-    books: [Book]
-    authors: [Author]
+    users: [User]
   }
 `;
 
 const resolvers = {
     Query: {
-        books: () => books,
-        authors: () => author,
+        users: () => users,
     },
 };
 

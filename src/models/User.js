@@ -39,7 +39,12 @@ const userSchema = new Schema({
         type: Number,
         required: true,
     },
-    isSup: {
+    isGroupSupervisor: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    isGroupAssistant: {
         type: Boolean,
         required: true,
         default: false
