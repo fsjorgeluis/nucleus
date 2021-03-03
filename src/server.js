@@ -3,9 +3,10 @@ import helmet from 'helmet';
 import { ApolloServer } from 'apollo-server-express';
 import dotenv from 'dotenv';
 import { typeDefs, resolvers } from './graphql/schema.js';
+import connectDB from './config/database.js';
 
-// Access to .env file and get variables
-dotenv.config();
+dotenv.config(); // Access to .env file and get variables
+connectDB(); // Enable database connection
 
 // Express initialization and port assignment
 const app = express();

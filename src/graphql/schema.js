@@ -27,7 +27,7 @@ const typeDefs = gql`
     enum UserRole {
         SuperAdmin
         Admin
-        Standard
+        Collaborator
     }
 
     # This "User" type defines the queryable fields for every user in our data source.
