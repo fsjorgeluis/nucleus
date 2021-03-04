@@ -7,7 +7,7 @@ import { typeDefs, resolvers } from './graphql/schema.js';
 import connectDB from './config/database.js';
 
 dotenv.config(); // Access to .env file and get variables
-// connectDB(); // Enable database connection
+connectDB(); // Enable database connection
 
 // Express initialization and port assignment
 const app = express();

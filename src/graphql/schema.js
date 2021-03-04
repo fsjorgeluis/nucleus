@@ -1,4 +1,5 @@
 import { gql } from 'apollo-server-express';
+import User from '../models/User.js';
 
 const users = [
     {
@@ -17,7 +18,8 @@ const users = [
         isAux: false,
         isPr: false,
         monthlyReport: () => reports,
-        role: 'SuperAdmin',
+        role: 'SUPERADMIN',
+        isLogged: true,
         status: true
     }
 ];
@@ -37,11 +39,11 @@ const reports = [
 ];
 
 const typeDefs = gql`
-    # This "UserRole" enum defines the queryable fields for every user in our data source.
-    enum UserRole {
-        SuperAdmin
-        Admin
-        Collaborator
+    # This "Role" enum defines the queryable fields for every user in our data source.
+    enum Role {
+        SUPERADMIN
+        ADMIN
+        COLLABORATOR
     }
 
     # This "User" type defines the queryable fields for every user in our data source.
@@ -60,14 +62,48 @@ const typeDefs = gql`
         isGroupAssistant: Boolean!
         isAux: Boolean!
         isPr: Boolean!
-        monthlyReport: [Report!]!
-        role: UserRole!
+        report: [YearlyReport!]!
+        role: Role!
+        isLogged: Boolean!
         status: Boolean!
+    }
+
+    type Token {
+        token: String!
+    }
+
+    type Login {
+        email: String!
+        password: String!
+    }
+
+    input UserInput {
+        name: String!
+        lastName: String!
+        email: String!
+        password: String!
+        phone1: String!
+        group: Int!
+    }
+
+    input LoginInput {
+        email: String!
+        password: String!
+    }
+
+    type MutationResponse {
+        message: String!
+        status: Boolean!
+    }
+
+    type YearlyReport {
+        _id: ID!
+        monthlyReport: Report!
     }
 
     # This "Report" type defines the queryable fields for every user monthly report in our data source.
     type Report {
-        _id: ID
+        _id: ID!
         month: String!
         year: Int!
         user: User!
@@ -78,17 +114,57 @@ const typeDefs = gql`
         note: String
     }
 
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
   type Query {
     users: [User]
+  }
+ 
+  type Mutation {
+    register(user: UserInput): MutationResponse!
+    login(user: LoginInput): Token
   }
 `;
 
 const resolvers = {
     Query: {
         users: () => users,
+    },
+    Mutation: {
+        register: async (parent, args, context, info) => {
+            try {
+                const { user: { name, lastName, email, password, phone1, group } } = args;
+
+                const userExist = await User.findOne({ email });
+                if (userExist) {
+                    return {
+                        message: 'User already exist!',
+                        status: false
+                    }
+                }
+
+                await User.create({
+                    name,
+                    lastName,
+                    email,
+                    password,
+                    phone1,
+                    group
+                });
+
+                // console.log(newUser._doc);
+
+                // console.log(JSON.parse(JSON.stringify(args)))
+                return {
+                    message: 'User created!',
+                    status: true
+                }
+            } catch ({ message }) {
+                return {
+                    message: message,
+                    status: false
+                }
+            }
+        },
+
     },
 };
 

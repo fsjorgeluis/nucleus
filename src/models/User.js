@@ -1,10 +1,11 @@
-import { Schema, model } from 'mongoose';
+import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
-const userSchema = new Schema({
+const userSchema = mongoose.Schema({
     nickname: {
         type: String,
-        required: true
+        required: false,
+        default: () => 'User_' + Math.random().toString(36).slice(2)
     },
     password: {
         type: String,
@@ -26,6 +27,7 @@ const userSchema = new Schema({
     address: {
         type: String,
         required: false,
+        default: 'PLC, Venezuela'
     },
     phone1: {
         type: String,
@@ -34,6 +36,7 @@ const userSchema = new Schema({
     phone2: {
         type: String,
         required: false,
+        default: '+580000000000'
     },
     group: {
         type: Number,
@@ -59,11 +62,11 @@ const userSchema = new Schema({
         required: true,
         default: false
     },
-    monthlyReport: {
-        type: Schema.Types.ObjectId,
-        required: true,
+    monthlyReport: [{
+        type: mongoose.Schema.Types.ObjectId,
+        required: false,
         ref: 'Report'
-    },
+    }],
     role: {
         type: String,
         required: true,
@@ -92,4 +95,6 @@ userSchema.pre('save', async function (next) {
     this.password = await bcrypt.hash(this.password, salt);
 });
 
-export default model('User', userSchema, 'users');
+const User = mongoose.model('User', userSchema, 'users');
+
+export default User;
