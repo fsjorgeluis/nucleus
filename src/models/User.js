@@ -70,7 +70,7 @@ const userSchema = mongoose.Schema({
     role: {
         type: String,
         required: true,
-        default: 'Collaborator'
+        default: 'COLLABORATOR'
     },
     status: {
         type: Boolean,

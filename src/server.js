@@ -1,10 +1,11 @@
 import express from 'express';
-import { ApolloServer } from 'apollo-server-express';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
-import { typeDefs, resolvers } from './graphql/schema.js';
+import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import connectDB from './config/database.js';
+// Public and secure endpoints
+import userRoutes from './routes/userRoutes.js';
 
 dotenv.config(); // Access to .env file and get variables
 connectDB(); // Enable database connection
@@ -13,28 +14,26 @@ connectDB(); // Enable database connection
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-// Preventing cors error and 
-// parsing data with express.json() middleware
+// Preventing cors error 
+// Parsing data with express.json() middleware
+// Applying middlewares to routes
 app.use(cors());
 app.use(express.json());
-
-// Apollo server definition
-const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-});
-
-server.applyMiddleware({ app });
-
-// Applying middlewares to routes
 app.use(helmet());
-app.use((req, res) => {
+
+app.get('/', (req, res) => {
     res.status(200);
-    res.send('Graphql API is running...');
+    res.send('API is running...');
     res.end();
 });
 
+app.use('/api/users', userRoutes);
+
+
+app.use(notFound);
+app.use(errorHandler);
+
 // Launching server on designed port
 app.listen({ port: PORT }, () =>
-    console.log(`🚀 Server in ${process.env.NODE_ENV} mode, ready at http://localhost:${PORT}${server.graphqlPath}`)
+    console.log(`🚀 Server in ${process.env.NODE_ENV} mode, ready at http://localhost:${PORT}`)
 );
