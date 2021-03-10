@@ -23,7 +23,22 @@ app.use(helmet());
 
 app.get('/', (req, res) => {
     res.status(200);
-    res.send('API is running...');
+    res.json({
+        "status": "API is running...",
+        "name": "nucleus",
+        "version": "0.1.0",
+        "description": "REST API core for dashboard app",
+        "author": {
+            "name": "Jorge Fernandez",
+            "email": "fsjorgeluis@gmail.com"
+        },
+        "contributors": [
+            {
+                "name": "Javier Mora",
+                "email": "javmora04@gmail.com"
+            }
+        ],
+    });
     res.end();
 });
 
