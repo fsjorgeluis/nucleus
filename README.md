@@ -4,7 +4,7 @@
 ![Build Status](https://img.shields.io/badge/Licence-GPL_v3-blue)
 # Nucleus - Graphql API para "Jw Cartelera Digital"
 
-API desarrollada en nodejs con graphql para la aplicación cartelera digital, permite administrar distintas funciones administrativas inherentes a la cartelera y actividades programadas.
+API REST desarrollada en nodejs para la aplicación cartelera digital, permite administrar distintas funciones administrativas inherentes a la cartelera y actividades programadas.
 
 ## Documentación
 
@@ -16,29 +16,45 @@ npm install
 npm run dev
 ```
 
-A continuación se describen las posibles peticiones en base a los query y mutations disponibles en la API. Todas las peticiones son realizadas mediante el método **POST** a un unico endpoint. 
+A continuación se describen las posibles peticiones disponibles en la API. 
 
 ```
-POST: /graphql
+GET: /
 ```
 
-Ejemplo de estructura de los query y mutations.
+Información sobre la estatus de la api.
 
 ```
-query {
-    books {
-        title
-        author
-  }
+GET: /api/users/
+```
+
+Ruta protegida, lista todos los usuarios, se requiere cómo mínimo rol de administrador.
+
+```
+POST: /api/users/login
+
+{
+    "email": <String>,
+    "password": <String>
 }
+```
 
-mutation {
-    book(title:"title" author:"author") {
-        title
-        author
-    }
+Ruta pública, recibe objeto con { **email** y **clave** } de usuario registrado, devuelve **token** e información del usuario.
+
+```
+POST: /api/users/register
+
+{
+    "name": <String>,
+    "lastName": <String>,
+    "email": <String>,
+    "password": <String>,
+    "phone1": <String>,
+    "group": <Int>
 }
 ```
+
+Ruta pública, recibe objeto con { **name**, **lastName**, **email**, **password**, **phone1**, **group** } retorna objeto con { **id**, **name**, **email**, **role** } del usuario creado
 
 ## Prerrequisitos
 
