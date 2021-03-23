@@ -59,14 +59,17 @@ const registerUser = asyncHandler(async (req, res) => {
 
 // @description     Get all users registered
 // @route           Get /api/users/
-// @access          Private, restricted to ADMIN role
+// @access          Private, restricted to ADMIN or SUPERADMIN role
 const getUsers = asyncHandler(async (req, res) => {
     const { role } = req.user;
     if (role === 'SUPERADMIN' || role === 'ADMIN') {
         const allUsers = await User.find({});
         if (allUsers) {
             res.json({
-                data: allUsers
+                data: allUsers.map(user => {
+                    const { password, ...one } = user._doc;
+                    return one;
+                })
             });
         } else {
             res.status(404);
@@ -78,8 +81,32 @@ const getUsers = asyncHandler(async (req, res) => {
     }
 });
 
+// @description     Get user by id
+// @route           Get /api/users/:id
+// @access          Private, restricted to ADMIN or SUPERADMIN role
+const getUserById = asyncHandler(async (req, res) => {
+    const { user: { role }, params: { id } } = req;
+    if (role === 'SUPERADMIN' || role === 'ADMIN') {
+        const getOneUser = await User.findById({ _id: id });
+        const { password, ...user } = getOneUser._doc;
+        if (getOneUser) {
+            res.json({
+                data: user
+            });
+        } else {
+            res.status(404);
+            throw new Error('We can not find any record!');
+        }
+    } else {
+        res.status(401);
+        throw new Error('Not authorized');
+    }
+});
+
+
 export {
     authUser,
     registerUser,
-    getUsers
+    getUsers,
+    getUserById
 };
