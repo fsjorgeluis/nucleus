@@ -63,14 +63,21 @@ const registerUser = asyncHandler(async (req, res) => {
 // @access          Private, restricted to ADMIN or SUPERADMIN role
 const getUsers = asyncHandler(async (req, res) => {
     const { role } = req.user;
+    const { page = 1, limit = 10 } = req.query;
     if (role === Roles.SuperAdmin || role === Roles.Admin) {
-        const allUsers = await User.find({});
+        const allUsers = await User.find({})
+            .limit(limit * 1)
+            .skip((page - 1) * limit)
+            .exec();
+        const count = await User.countDocuments();
         if (allUsers) {
             res.json({
                 data: allUsers.map(user => {
                     const { password, ...one } = user._doc;
                     return one;
-                })
+                }),
+                totalPages: Math.ceil(count / limit),
+                currentPage: page
             });
         } else {
             res.status(404);
@@ -83,7 +90,7 @@ const getUsers = asyncHandler(async (req, res) => {
 });
 
 // @description     Get user by id
-// @route           Get /api/users/:id
+// @route           Get /api/users/profile/:id
 // @access          Private, restricted to ADMIN or SUPERADMIN role
 const getUserById = asyncHandler(async (req, res) => {
     const { user: { role }, params: { id } } = req;
@@ -105,7 +112,7 @@ const getUserById = asyncHandler(async (req, res) => {
 });
 
 // @description     Update user
-// @route           PATCH /api/users/:id
+// @route           PATCH /api/users/profile/:id
 // @access          Private, restricted to ADMIN or SUPERADMIN role
 const updateUser = asyncHandler(async (req, res) => {
     const { user: { role }, params: { id } } = req;
@@ -113,8 +120,10 @@ const updateUser = asyncHandler(async (req, res) => {
         const user = await User.findById({ _id: id });
         if (user) {
             user.name = req.body.name || user.name;
+            user.lastName = req.body.lastName || user.lastName;
             user.email = req.body.email || user.email;
             user.role = req.body.role || user.role;
+            user.status = req.body.status || user.status;
             if (req.body.password) {
                 user.password = req.body.password;
             }
@@ -123,8 +132,10 @@ const updateUser = asyncHandler(async (req, res) => {
                 data: {
                     _id: updatedUser._id,
                     name: updatedUser.name,
+                    lastName: updatedUser.lastName,
                     email: updatedUser.email,
                     role: updatedUser.role,
+                    status: updatedUser.status,
                     token: tokenGenerator(updatedUser._id)
                 }
             });
