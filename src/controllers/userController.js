@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import tokenGenerator from '../helpers/tokenGenerator.js';
-import User from '../models/User.js';
+import User, { Roles } from '../models/User.js';
 
 // @description     Auth user & get token
 // @route           POST /api/users/login
@@ -63,7 +63,7 @@ const registerUser = asyncHandler(async (req, res) => {
 // @access          Private, restricted to ADMIN or SUPERADMIN role
 const getUsers = asyncHandler(async (req, res) => {
     const { role } = req.user;
-    if (role === 'SUPERADMIN' || role === 'ADMIN') {
+    if (role === Roles.SuperAdmin || role === Roles.Admin) {
         const allUsers = await User.find({});
         if (allUsers) {
             res.json({
@@ -87,7 +87,7 @@ const getUsers = asyncHandler(async (req, res) => {
 // @access          Private, restricted to ADMIN or SUPERADMIN role
 const getUserById = asyncHandler(async (req, res) => {
     const { user: { role }, params: { id } } = req;
-    if (role === 'SUPERADMIN' || role === 'ADMIN') {
+    if (role === Roles.SuperAdmin || role === Roles.Admin) {
         const getOneUser = await User.findById({ _id: id });
         const { password, ...user } = getOneUser._doc;
         if (getOneUser) {
@@ -109,11 +109,12 @@ const getUserById = asyncHandler(async (req, res) => {
 // @access          Private, restricted to ADMIN or SUPERADMIN role
 const updateUser = asyncHandler(async (req, res) => {
     const { user: { role }, params: { id } } = req;
-    if (role === 'SUPERADMIN' || role === 'ADMIN') {
+    if (role === Roles.SuperAdmin || role === Roles.Admin) {
         const user = await User.findById({ _id: id });
         if (user) {
             user.name = req.body.name || user.name;
             user.email = req.body.email || user.email;
+            user.role = req.body.role || user.role;
             if (req.body.password) {
                 user.password = req.body.password;
             }

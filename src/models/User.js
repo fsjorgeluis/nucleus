@@ -1,6 +1,13 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
+export const Roles = Object.freeze({
+    Collaborator: 'collaborator',
+    Admin: 'admin',
+    SuperAdmin: 'superadmin',
+});
+
+
 const userSchema = mongoose.Schema({
     nickname: {
         type: String,
@@ -69,8 +76,9 @@ const userSchema = mongoose.Schema({
     }],
     role: {
         type: String,
+        enum: Object.values(Roles),
         required: true,
-        default: 'COLLABORATOR'
+        default: Roles.Collaborator
     },
     status: {
         type: Boolean,
@@ -93,6 +101,10 @@ userSchema.pre('save', async function (next) {
 
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
+});
+
+Object.assign(userSchema.statics, {
+    Roles,
 });
 
 const User = mongoose.model('User', userSchema, 'users');
