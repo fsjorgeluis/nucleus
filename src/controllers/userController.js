@@ -7,15 +7,16 @@ import User from '../models/User.js';
 // @access          Public
 const authUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
-    const userExist = await User.findOne({ email });
-    if (userExist.matchPassword(password)) {
+    const userExists = await User.findOne({ email });
+    const isMatch = await userExists.comparePassword(password);
+    if (userExists && isMatch) {
         res.json({
             data: {
-                _id: userExist._id,
-                name: userExist.name,
-                email: userExist.email,
-                role: userExist.role,
-                token: tokenGenerator(userExist._id)
+                _id: userExists._id,
+                name: userExists.name,
+                email: userExists.email,
+                role: userExists.role,
+                token: tokenGenerator(userExists._id)
             }
         });
     } else {
@@ -29,8 +30,8 @@ const authUser = asyncHandler(async (req, res) => {
 // @access          Public
 const registerUser = asyncHandler(async (req, res) => {
     const { name, lastName, email, password, phone1, group } = req.body;
-    const userExist = await User.findOne({ email });
-    if (userExist) {
+    const userExists = await User.findOne({ email });
+    if (userExists) {
         res.status(400);
         throw new Error('User already exist!');
     }
