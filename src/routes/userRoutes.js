@@ -4,7 +4,8 @@ import {
     authUser,
     registerUser,
     getUsers,
-    getUserById
+    getUserById,
+    updateUser
 } from '../controllers/userController.js';
 
 const router = express.Router();
@@ -12,6 +13,8 @@ const router = express.Router();
 router.post('/register', registerUser);
 router.post('/login', authUser);
 router.route('/').get(secure, getUsers);
-router.route('/:id').get(secure, getUserById);
+router.route('/:id')
+    .get(secure, getUserById)
+    .patch(secure, updateUser);
 
 export default router;

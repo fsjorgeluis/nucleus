@@ -31,6 +31,12 @@ GET: /api/users/
 Ruta protegida, lista todos los usuarios, se requiere cómo mínimo rol de administrador.
 
 ```
+GET: /api/users/:id
+```
+
+Ruta protegida, obtiene un usuario según su id, retorna objeto con { **_id**, **name**, **lastName**, **email**, **nickname**, **address**, **phone2**, **isGroupSupervisor**, **isGroupAssistant**, **isAux**, **isPr**, **monthlyReport**, **role**, **status**, **phone1**, **group**, **createdAt**, **updatedAt** } se requiere cómo mínimo rol de administrador.
+
+```
 POST: /api/users/login
 
 {
@@ -54,7 +60,8 @@ POST: /api/users/register
 }
 ```
 
-Ruta pública, recibe objeto con { **name**, **lastName**, **email**, **password**, **phone1**, **group** } retorna objeto con { **id**, **name**, **email**, **role** } del usuario creado
+Ruta pública, recibe objeto con { **name**, **lastName**, **email**, **password**, **phone1**, **group** } retorna objeto con { **id**, **name**, **email**, **role** } del usuario creado.
+
 
 ## Prerrequisitos
 
