@@ -26,9 +26,11 @@ Información sobre la estatus de la api.
 
 ```
 GET: /api/users/
+
+GET: /api/users/?page=<Int>&limit=<Int>
 ```
 
-Ruta protegida, lista todos los usuarios, se requiere cómo mínimo rol de administrador, opcionalmente puede recibir los siguientes argumentos como parametros de query **?page=<Number>&limit=<Number>** para la paginación.
+Ruta protegida, lista todos los usuarios, se requiere cómo mínimo rol de administrador, opcionalmente puede recibir los siguientes argumentos como parametros de query: **?page=Number&limit=Number** para la paginación.
 
 ```
 GET: /api/users/profile/:id
