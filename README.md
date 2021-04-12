@@ -38,6 +38,22 @@ GET: /api/users/profile/:id
 
 Ruta protegida, obtiene un usuario según su id, retorna objeto con { **_id**, **name**, **lastName**, **email**, **nickname**, **address**, **phone2**, **isGroupSupervisor**, **isGroupAssistant**, **isAux**, **isPr**, **monthlyReport**, **role**, **status**, **phone1**, **group**, **createdAt**, **updatedAt** } se requiere cómo mínimo rol de administrador.
 
+
+```
+PATCH: /api/users/profile/:id
+
+{
+    "name": <String>,
+    "lastName": <String>,
+    "email": <String>,
+    "password": <String>,
+    "role": <Enumerator>,
+    "status": <Boolean>
+}
+```
+
+Ruta protegida, obtiene un usuario según su id, recibe objeto con { **name**, **lastName**, **email**, **password**, **role**, **status** }, retorna objeto con { **_id**, **name**, **lastName**, **email**, **role**, **status** **token** } se requiere cómo mínimo rol de administrador. 
+
 ```
 POST: /api/users/login
 
@@ -56,27 +72,25 @@ POST: /api/users/register
     "name": <String>,
     "lastName": <String>,
     "email": <String>,
-    "password": <String>,
-    "phone1": <String>,
-    "group": <Int>
+    "password": <String>
 }
 ```
 
-Ruta pública, recibe objeto con { **name**, **lastName**, **email**, **password**, **phone1**, **group** } retorna objeto con { **id**, **name**, **email**, **role** } del usuario creado.
+Ruta pública, recibe objeto con { **name**, **lastName**, **email**, **password** } retorna objeto con { **id**, **name**, **email**, **role** } del usuario creado.
 
 ```
-PATCH: /api/users/profile/:id
+GET: /api/publisher/
+POST: /api/publisher/new
+GET: /api/publisher/:id
+PATCH: /api/publisher/:id
 
-{
-    "name": <String>,
-    "lastName": <String>,
-    "email": <String>,
-    "password": <String>,
-    "role": <Enumerator>,
-    "status": <Boolean>
-}
+GET: /api/monthlyreport
+POST: /api/monthlyreport/new
+GET: /api/monthlyreport/:id
+PATCH: /api/monthlyreport/:id
+
 ```
-Ruta protegida, obtiene un usuario según su id, recibe objeto con { **name**, **lastName**, **email**, **password**, **role**, **status** }, retorna objeto con { **_id**, **name**, **lastName**, **email**, **role**, **status** **token** } se requiere cómo mínimo rol de administrador. 
+Rutas protegidas creadas, por programar.
 
 ## Prerrequisitos
 
