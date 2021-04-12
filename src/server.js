@@ -6,6 +6,8 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import connectDB from './config/database.js';
 // Public and secure endpoints
 import userRoutes from './routes/userRoutes.js';
+import publisherRoutes from './routes/publisherRoutes.js';
+import monthlyReportRoutes from './routes/monthlyReportRoutes.js';
 
 dotenv.config(); // Access to .env file and get variables
 connectDB(); // Enable database connection
@@ -43,6 +45,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/users', userRoutes);
+app.use('/api/publisher', publisherRoutes);
+app.use('/api/monthlyreport', monthlyReportRoutes);
 
 
 app.use(notFound);

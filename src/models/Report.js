@@ -16,19 +16,23 @@ const reportSchema = new Schema({
     },
     hour: {
         type: Number,
-        required: true
+        required: true,
+        default: 0
     },
     publication: {
         type: Number,
-        required: true
+        required: true,
+        default: 0
     },
     revisit: {
         type: Number,
-        required: true
+        required: true,
+        default: 0
     },
     study: {
         type: Number,
-        required: true
+        required: true,
+        default: 0
     },
     note: {
         type: String,
