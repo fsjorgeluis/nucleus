@@ -9,10 +9,10 @@ const reportSchema = new Schema({
         type: Number,
         required: true
     },
-    user: {
+    publisher: {
         type: Schema.Types.ObjectId,
         required: true,
-        ref: 'User'
+        ref: 'Publisher'
     },
     hour: {
         type: Number,

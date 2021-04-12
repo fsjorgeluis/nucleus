@@ -31,49 +31,6 @@ const userSchema = mongoose.Schema({
         required: true,
         unique: true
     },
-    address: {
-        type: String,
-        required: false,
-        default: 'PLC, Venezuela'
-    },
-    phone1: {
-        type: String,
-        required: true,
-    },
-    phone2: {
-        type: String,
-        required: false,
-        default: '+580000000000'
-    },
-    group: {
-        type: Number,
-        required: true,
-    },
-    isGroupSupervisor: {
-        type: Boolean,
-        required: true,
-        default: false
-    },
-    isGroupAssistant: {
-        type: Boolean,
-        required: true,
-        default: false
-    },
-    isAux: {
-        type: Boolean,
-        required: true,
-        default: false
-    },
-    isPr: {
-        type: Boolean,
-        required: true,
-        default: false
-    },
-    monthlyReport: [{
-        type: mongoose.Schema.Types.ObjectId,
-        required: false,
-        ref: 'Report'
-    }],
     role: {
         type: String,
         enum: Object.values(Roles),
