@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
     res.json({
         "status": "API is running...",
         "name": "nucleus",
-        "version": "0.1.0",
+        "version": "0.2.1",
         "description": "REST API core for dashboard app",
         "author": {
             "name": "Jorge Fernandez",

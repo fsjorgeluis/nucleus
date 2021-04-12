@@ -1,4 +1,4 @@
-![Build Status](https://img.shields.io/badge/Dashboard-v0.1.0-green)
+![Build Status](https://img.shields.io/badge/Dashboard-v0.2.1-green)
 ![Build Status](https://img.shields.io/badge/build-passing-green)
 ![Build Status](https://img.shields.io/badge/nodejs-v14.15.3-blue)
 ![Build Status](https://img.shields.io/badge/Licence-GPL_v3-blue)
