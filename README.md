@@ -2,7 +2,7 @@
 ![Build Status](https://img.shields.io/badge/build-passing-green)
 ![Build Status](https://img.shields.io/badge/nodejs-v14.15.3-blue)
 ![Build Status](https://img.shields.io/badge/Licence-GPL_v3-blue)
-# Nucleus - Graphql API para "Jw Cartelera Digital"
+# Nucleus - REST API para "Jw Cartelera Digital"
 
 API REST desarrollada en nodejs para la aplicación cartelera digital, permite administrar distintas funciones administrativas inherentes a la cartelera y actividades programadas.
 
