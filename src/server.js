@@ -8,6 +8,7 @@ import connectDB from './config/database.js';
 import userRoutes from './routes/userRoutes.js';
 import publisherRoutes from './routes/publisherRoutes.js';
 import monthlyReportRoutes from './routes/monthlyReportRoutes.js';
+import groupRoutes from './routes/groupRoutes.js';
 
 dotenv.config(); // Access to .env file and get variables
 connectDB(); // Enable database connection
@@ -45,8 +46,9 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/users', userRoutes);
-app.use('/api/publisher', publisherRoutes);
-app.use('/api/monthlyreport', monthlyReportRoutes);
+app.use('/api/publishers', publisherRoutes);
+app.use('/api/monthlyreports', monthlyReportRoutes);
+app.use('/api/groups', groupRoutes);
 
 
 app.use(notFound);

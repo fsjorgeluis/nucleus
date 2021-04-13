@@ -79,15 +79,15 @@ POST: /api/users/register
 Ruta pública, recibe objeto con { **name**, **lastName**, **email**, **password** } retorna objeto con { **id**, **name**, **email**, **role** } del usuario creado.
 
 ```
-GET: /api/publisher/
-POST: /api/publisher/new
-GET: /api/publisher/:id
-PATCH: /api/publisher/:id
+GET: /api/publishers/
+POST: /api/publishers/new
+GET: /api/publishers/:id
+PATCH: /api/publishers/:id
 
-GET: /api/monthlyreport
-POST: /api/monthlyreport/new
-GET: /api/monthlyreport/:id
-PATCH: /api/monthlyreport/:id
+GET: /api/monthlyreports
+POST: /api/monthlyreports/new
+GET: /api/monthlyreports/:id
+PATCH: /api/monthlyreports/:id
 
 ```
 Rutas protegidas creadas, por programar.

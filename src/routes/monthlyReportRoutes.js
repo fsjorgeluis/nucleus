@@ -1,5 +1,5 @@
 import express from 'express';
-import secure from '../middleware/authMiddleware.js';
+import { secure } from '../middleware/authMiddleware.js';
 import {
     newMonthlyReport,
     getAllMonthlyReports,

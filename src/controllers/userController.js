@@ -60,8 +60,7 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route           Get /api/users/
 // @access          Private, restricted to ADMIN or SUPERADMIN role
 const getUsers = asyncHandler(async (req, res) => {
-    const { role } = req.user;
-    const { page = 1, limit = 10 } = req.query;
+    const { user: { role }, query: { page = 1, limit = 10 } } = req;
     if (role === Roles.SuperAdmin || role === Roles.Admin) {
         const allUsers = await User.find({})
             .limit(limit * 1)
